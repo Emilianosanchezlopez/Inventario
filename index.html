@@ -1,0 +1,543 @@
+<!DOCTYPE HTML>
+<!--
+	Striped by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Inventario Mainbit</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="css/buttons.bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Content -->
+			<div id="content" style="margin-bottom:0px !important;">
+				<div class="inner">
+
+					<!-- Post -->
+						<article class="box post post-excerpt">
+							<header>
+								<!--
+									Note: Titles and subtitles will wrap automatically when necessary, so don't worry
+									if they get too long. You can also remove the <p> entirely if you don't
+									need a subtitle.
+								-->
+								<h2><a href="#">Inventario: Mainbit</a></h2>
+								<p>Inventario de equipos, especificaciónes técnicas, proyecto, etc. </p>
+							</header>
+							<div class="info">
+								<!--
+									Note: The date should be formatted exactly as it's shown below. In particular, the
+									"least significant" characters of the month should be encapsulated in a <span>
+									element to denote what gets dropped in 1200px mode (eg. the "uary" in "January").
+									Oh, and if you don't need a date for a particular page or post you can simply delete
+									the entire "date" element.
+
+								-->
+								<span class="date"><span id="month" class="month">Jul<span>y</span></span> <span id="day" class="day"></span><span id="year" class="year">, 2014</span></span>
+								<!--
+									Note: You can change the number of list items in "stats" to whatever you want.
+								-->
+								<ul class="stats">
+									<li data-toggle="tooltip" data-placement="bottom" title="Equipos Reportados los últimos 15 días"><a href="#"  style="color:green;" class="icon fa-desktop">&nbsp &nbsp 16</a></li>
+									<li data-toggle="tooltip" data-placement="bottom" title="Equipos Reportados los últimos 30 días"><a href="#"  style="color:red;" class="icon fa-desktop">&nbsp &nbsp 32</a></li>
+									<li data-toggle="tooltip" data-placement="bottom" title="Equipos Reportados 1 vez"><a href="#" class="icon fa-desktop">&nbsp &nbsp 64</a></li>
+									<li data-toggle="tooltip" data-placement="bottom" title="Total de equipos"><a href="#" class="icon fa-list">&nbsp &nbsp 128</a></li>
+									
+								</ul>
+								<script>
+									var fecha = new Date();
+									var dd = fecha.getDate();
+									var mes = fecha.getMonth();
+									var e = fecha.getMonth();
+var mes = e+1;
+g = '';
+
+if(mes === 1){
+g += 'Ene'
+}
+if(mes === 2){
+g += 'Feb'
+}
+if(mes === 3){
+g += 'Mar'
+}
+if(mes === 4){
+g += 'Abr'
+}
+if(mes === 5){
+g += 'May'
+}
+if(mes === 6){
+g += 'Jun'
+}
+if(mes === 7){
+g += 'Jul'
+}
+
+if(mes === 8){
+g += 'Ago'
+}
+if(mes === 9){
+g += 'Sep'
+}
+if(mes === 10){
+g += 'Oct'
+}
+if(mes === 11){
+g += 'Nov'
+}
+if(mes === 12){
+g += 'Dic'
+}
+
+									var yy = fecha.getFullYear();
+									document.getElementById("day").innerHTML = dd;
+									document.getElementById("month").innerHTML = g;
+									document.getElementById("year").innerHTML =",&nbsp" + yy;
+								</script>
+							</div>
+							
+
+							<!-- tabla de inventario  -->
+
+							<div class="container hidden">
+								
+								<h3> Executable Example </h3>
+								
+								
+								<div class="row hidden">
+									<!-- leer storage -->
+								<label><b>Storage account:</b> </label> <input type="text" id="account" value="tabla01" disabled/> 
+								<label><b>SAS Token:</b> </label> <input type="text" id="sas" value="?sv=2017-04-17&ss=bfqt&srt=sco&sp=rwdlacup&se=2017-09-08T21:06:59Z&st=2017-08-23T13:06:59Z&spr=https,http&sig=TQ8QoEBL6v5%2FKSur3Rw6aIaDTVaB1F5jIOo2c9TJkm0%3D" disabled/>
+									
+								</div>
+								
+								<hr>
+								<h3> Tables in Storage Account </h3>
+								<ul>
+									<li><p> Click <button class="btn btn-xs btn-primary" onclick="refreshTableList()">ListTables</button> button to view the table list under your Azure Storage account</p></li>
+									
+						  
+								</ul>
+								<div id="tables" class="hidden"></div>
+					
+								<h3>Result Entities</h3>
+								<ul>
+									
+									<li><p> Click <button class="btn btn-xs btn-primary" onclick="refreshEntityList()">QueryEntities</button> button to refresh the entity list in your selected table</p></li>
+								</ul>
+								
+								
+							</div>
+							<div id="result"></div>
+					
+							<!-- azure-storage.common.js also exports Node.js module stream, util and buffer -->
+							<script src="js/bundle/azure-storage.common.js"></script> 
+							<script src="js/bundle/azure-storage.table.js"></script> 
+					
+							<script>
+								var account = document.getElementById('account').value;
+								var sas = document.getElementById('sas').value;
+								var table = '';
+								var tableUri = '';
+					
+								function checkParameters() {
+									account = document.getElementById('account').value;
+									sas = document.getElementById('sas').value;
+					
+									if (account == null || account.length < 1)
+									{
+										alert('Please enter a valid storage account name!');
+										return false;
+									}
+									if (sas == null || sas.length < 1)
+									{
+										alert('Please enter a valid SAS Token!');
+										return false;
+									}
+					
+									return true;
+								}
+								
+								function getTableService() {
+									if (!checkParameters())
+										return null;
+					
+									tableUri = 'https://' + account + '.table.core.windows.net';
+									var tableService = AzureStorage.createTableServiceWithSas(tableUri, sas).withFilter(new AzureStorage.ExponentialRetryPolicyFilter());
+									return tableService;
+								}
+					
+								function refreshTableList()
+								{
+									var tableService = getTableService();
+									if (!tableService)
+										return;
+					
+									document.getElementById('tables').innerHTML = 'Loading table list...';
+									tableService.listTablesSegmented(null, {maxResults : 200}, function(error, results) {
+										if (error) {
+											alert('List table list error, please open browser console to view detailed error');
+											console.log(error);
+										} else {
+											var output = [];
+											output.push('<tr>',
+															'<th>TableName</th>',
+															'<th>Operations</th>',
+														'</tr>');
+											if (results.entries.length < 1) {
+												output.push('<tr><td>Empty results...</td></tr>');
+											}                                    
+											for (var i = 0, table; table = results.entries[i]; i++) {
+												output.push('<tr>',
+																'<td>', table, '</td>',
+																'<td>', '<button class="btn btn-xs btn-success" onclick="viewTable(\'', table ,'\')">Select</button>', '</td>',
+															'</tr>');
+											}
+											document.getElementById('tables').innerHTML = '<table class="table">' + output.join('') + '</table><hr>';
+										}
+									});
+								}
+					
+								function createTable() {
+									var tableService = getTableService();
+									if (!tableService)
+										return;
+					
+									var table = document.getElementById('newtable').value;
+									if (!AzureStorage.Validate.tableNameIsValid(table, function(err, res){})) {
+										alert('Invalid table name!');
+										return;
+									}
+									tableService.createTableIfNotExists(table.toLowerCase(), function(error, result) {
+										if (error) {
+											alert('Create table failed, open brower console for more detailed info.');
+											console.log(error);
+										} else {
+											alert('Create ' + table + ' successfully!');
+											refreshTableList();
+										}
+									});
+								}
+					
+								function deleteTable(table) {
+									var tableService = getTableService();
+									if (!tableService)
+										return;
+					
+									tableService.deleteTableIfExists(table, function(error, result) {
+										if (error) {
+											alert('Delete table failed, open brower console for more detailed info.');
+											console.log(error);
+										} else {
+											alert('Delete ' + table + ' successfully!');
+											refreshTableList();
+										}
+									});
+								}
+					
+								function viewTable(selectedTable) {
+									table = selectedTable;
+									// alert('Selected ' + table + ' !');
+									refreshEntityList();
+								}
+					
+								function refreshEntityList() {
+									var tableService = getTableService();
+									if (!tableService)
+										return;
+									
+									if (table == null || table.length < 1) {
+										alert('Please select a table from table list!')
+										return;
+									}
+					
+									document.getElementById('result').innerHTML = 'Loading table entities...';
+									var tableQuery = new AzureStorage.TableQuery().top(200);
+									tableService.queryEntities(table, tableQuery, null, function(error, results) {
+										if (error) {
+											alert('List table entities error, please open browser console to view detailed error');
+											console.log(error);
+										} else {
+											var output = [];
+											output.push('<thead>','<tr>',
+															'<th>Fabricante</th>',
+															'<th>Numero de serie</th>',
+															'<th>Nombre</th>',
+															'<th>Procesadores</th>',
+															'<th>ProcLogic</th>',
+															'<th>ProcFamily</th>',
+															'<th>Tipo de procesador</th>',
+															'<th>Velocidad de procesador</th>',
+															'<th>Disco duro</th>',
+															'<th>SerialNumber HD</th>',
+															'<th>Capacidad HD</th>',
+															'<th>ID Batería</th>',
+															'<th>Nombre Batería</th>',
+															'<th>Tipo Batería</th>',
+															'<th>BiosManufacturer</th>',
+															'<th>BiosName</th>',
+															'<th>RAMM</th>',
+															'<th>RAMBank</th>',
+															'<th>RAMCap</th>',
+															'<th>RAMLoc</th>',
+															'<th>RAMSN</th>',
+															'<th>RAMSpeed</th>',
+															'<th>Fecha</th>',
+															'</tr>','</thead>','<tbody>');
+											if (results.entries.length < 1) {
+												output.push('<tr><td>Empty results...</td></tr>');
+											}
+											for (var i = 0, entity; entity = results.entries[i]; i++) {
+												var tsy = entity.Timestamp._.getFullYear();
+												var tsd = entity.Timestamp._.getDay();
+												var tsm = entity.Timestamp._.getMonth();
+												var dateformat = tsd  + '/' + tsm +'/' + tsy;
+												
+												output.push('<tr>',
+																'<td>', entity.PartitionKey._, '</td>',
+																'<td>', entity.RowKey._, '</td>',
+																'<td>', entity.Name._, '</td>',
+																'<td>', entity.ProcCores._, '</td>',
+																'<td>', entity.ProcLogic._, '</td>',
+																'<td>', entity.ProcFam._, '</td>',
+															    '<td>', entity.ProcName._, '</td>',
+															    '<td>', entity.ProcSpeed._, '</td>',
+															    '<td>', entity.HDM._, '</td>',
+															    '<td>', entity.HDSN._, '</td>',
+															    '<td>', entity.HDSize._, '</td>',
+															    '<td>', entity.BattID._, '</td>',
+															    '<td>', entity.BattName._, '</td>',
+															    '<td>', entity.BattType._, '</td>',
+															    '<td>', entity.BiosM._, '</td>',
+															    '<td>', entity.BiosName._, '</td>',
+															    '<td>', entity.RAMM._, '</td>',
+															    '<td>', entity.RAMBank._, '</td>',
+															    '<td>', entity.RAMCap._, '</td>',
+															    '<td>', entity.RAMLoc._, '</td>',
+															    '<td>', entity.RAMSN._, '</td>',
+															    '<td>', entity.RAMSpeed._, '</td>',
+																'<td>', dateformat, '</td>',
+																
+															'</tr>');
+											}
+											document.getElementById('result').innerHTML = '<table id="mytable" class="display text-center">' + output.join('') + '</tbody>','</table>';
+										sur();
+										}
+									});
+									
+								}
+					
+								function addEntity() {
+									var tableService = getTableService();
+									if (!tableService)
+										return;
+									
+									if (table == null || table.length < 1) {
+										alert('Invalid table name!')
+										return;
+									}
+					
+									var partitionKey = document.getElementById('pk').value;
+									var rowKey = document.getElementById('rk').value;
+									var customProperty1 = document.getElementById('cp1').value;
+									var customProperty2 = document.getElementById('cp2').value;
+									var insertEntity = {
+										PartitionKey: {'_': partitionKey},
+										RowKey: {'_': rowKey},
+										CustomProperty1: {'_': customProperty1},
+										CustomProperty2: {'_': customProperty2}
+									};
+					
+									tableService.insertOrMergeEntity(table, insertEntity, function(error, result, response) {
+										if(error) {
+											alert('Insert table entity error, please open browser console to view detailed error');
+											console.log(error);
+										} else {
+											alert('Insert table entity successfully!');
+											refreshEntityList();
+										}
+									});
+								}
+					
+								function deleteEntity(partitionKey, rowKey) {
+									var tableService = getTableService();
+									if (!tableService)
+										return;
+									
+									if (table == null || table.length < 1) {
+										alert('Invalid table name!')
+										return;
+									}
+					
+									var deleteEntity = {
+										PartitionKey: {'_': partitionKey},
+										RowKey: {'_': rowKey}
+									};
+					
+									tableService.deleteEntity(table, deleteEntity, function(error, result, response) {
+										if(error) {
+											alert('Delete table entity error, please open browser console to view detailed error');
+											console.log(error);
+										} else {
+											alert('Delete table entity successfully!');
+											refreshEntityList();
+										}
+									});
+								};
+								$(document).ready(function () {
+									refreshTableList();
+								   viewTable('mytableMarte');//leer esta tabla
+								});
+					
+								
+							</script>
+					
+					<!--datatable export buttons-->
+							<script src="js/dataTables.buttons.min.js"></script>
+							<script src="js/buttons.bootstrap.min.js"></script>
+							<script src="js/vfs_fonts.js"></script>
+							<script src="js/pdfmake.min.js"></script>
+						   
+							<script src="js/buttons.html5.min.js"></script>
+							<script src="js/buttons.print.min.js"></script>
+					<script>
+					function sur() {
+						
+								setTimeout("refreshdatatable()", 1);
+					}
+								function refreshdatatable(){
+									// $('#mytable').DataTable();
+							  var handleDataTableButtons = function() {
+								  "use strict";
+								  0 !== $("#mytable").length && $("#mytable").DataTable({
+									dom: "Bfrtip",
+									buttons: [{
+									  extend: "copy",
+									  className: "btn-sm"
+									}, {
+									  extend: "csv",
+									  className: "btn-sm"
+									}, {
+									  extend: "excelHtml5",
+									  className: "btn-sm"
+									}, {
+									  extend: "pdf",
+									  className: "btn-sm"
+									}, {
+									  extend: "print",
+									  className: "btn-sm"
+									}],
+									responsive: !0
+								  })
+								},
+								TableManageButtons = function() {
+								  "use strict";
+								  return {
+									init: function() {
+									  handleDataTableButtons()
+									}
+								  }
+								}();
+											TableManageButtons.init();
+								};
+								
+							</script>
+							<hr>
+							<p>
+								<strong>Hola</strong> en esta tabla se muestran los equipos implementados en <strong>Mainbit</strong>, puede consultar las características de cada equipo, el número de equipos reportados en los últimos 15 días, 
+								los equipos que solo reportaron una vez y aquellos que llevan más de 30 días sin reportarse.</p>
+							<p>
+								En breve serán integradas gráficas y estadísticas más detalladas en este portal.
+							</p>
+						</article>
+
+					
+
+					<!-- Pagination -->
+						<div class="pagination">
+							<!--<a href="#" class="button previous">Previous Page</a>-->
+							<div class="pages">
+								<a href="#" class="active">1</a>
+								<a href="#">2</a>
+								<span>&hellip;</span>
+								<a href="#">4</a>
+							</div>
+							<a href="#" class="button next">Siguiente página</a>
+						</div>
+
+				</div>
+			</div>
+
+		<!-- Sidebar -->
+			<div id="sidebar">
+
+				<!-- Logo -->
+					<h1 id="logo"><a href="#">
+					<img src="images/logo.png"  alt="">	
+					</a></h1>
+
+					<!-- Search -->
+						<!-- <section class="box search">
+							<form method="post" action="#">
+								<input type="text" class="text" name="search" placeholder="Buscar proyecto" />
+							</form>
+						</section> -->
+				
+		       	<!-- Nav -->
+					<nav id="nav">
+						
+						<ul>
+							<h3>Proyectos</h3>
+							<li class="current"><a href="#">Mainbit</a></li>
+							<li><a href="#">ASA</a></li>
+							<li><a href="#">FND</a></li>
+							<li><a href="#">SENASICA</a></li>
+							<li><a href="#">SEP</a></li>
+							<li><a href="#">SHCP</a></li>
+						</ul>
+					</nav>
+
+
+				<!-- Text -->
+					<!-- <section class="box text-style1">
+						<div class="inner">
+							<p>
+								<strong>Buscar:</strong> Puede buscar en la lista de proyectos desde aquí. 
+							</p>
+						</div>
+					</section> -->
+
+				
+
+				
+
+
+				<!-- Copyright -->
+					<ul id="copyright" style="position:relative; bottom:0;">
+						<li>&copy; Todos los derechos reservados.</li>
+						<li>Subdirección de Soluciones Tecnológicas</li>
+					</ul>
+
+			</div>
+
+		<!-- Scripts -->
+			
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
