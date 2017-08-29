@@ -119,7 +119,7 @@ g += 'Dic'
 								<div class="row hidden">
 									<!-- leer storage -->
 								<label><b>Storage account:</b> </label> <input type="text" id="account" value="tabla01" disabled/> 
-								<label><b>SAS Token:</b> </label> <input type="text" id="sas" value="?sv=2017-04-17&ss=bfqt&srt=sco&sp=rwdlacup&se=2017-09-08T21:06:59Z&st=2017-08-23T13:06:59Z&spr=https,http&sig=TQ8QoEBL6v5%2FKSur3Rw6aIaDTVaB1F5jIOo2c9TJkm0%3D" disabled/>
+								<label><b>SAS Token:</b> </label> <input type="text" id="sas" value="?sv=2017-04-17&ss=bfqt&srt=sco&sp=rwdlacup&se=2017-09-01T02:01:02Z&st=2017-08-29T18:01:02Z&spr=https&sig=0%2FQsOMlKANpD0gjOaPAA8tSnaQYpb%2FoGJu%2BGY2P%2BHLg%3D" disabled/>
 									
 								</div>
 								
@@ -272,7 +272,7 @@ g += 'Dic'
 										} else {
 											var output = [];
 											output.push('<thead>','<tr>',
-															'<th>Fabricante</th>',
+															'<th>Proyecto</th>',
 															'<th>Numero de serie</th>',
 															'<th>Nombre</th>',
 															'<th>Procesadores</th>',
@@ -398,7 +398,7 @@ g += 'Dic'
 								};
 								$(document).ready(function () {
 									refreshTableList();
-								   viewTable('mytableMarte');//leer esta tabla
+								   viewTable('inventariotable');//leer tabla
 								});
 					
 								
