@@ -306,8 +306,29 @@ g += 'Dic'
 												var dateformat = tsd  + '/' + tsm +'/' + tsy;
 												
 												output.push('<tr>',
-																'<td>', entity.PartitionKey._, '</td>',
-																'<td>', entity.RowKey._, '</td>',
+												'<td>', entity.PartitionKey._, '</td>',
+												'<td>', entity.RowKey._, '</td>',
+											    	'<td>', entity.Name._, '</td>',
+												'<td>', entity.ProcCores._, '</td>',
+												'<td>', entity.ProcLogic._, '</td>',
+												'<td>', entity.ProcFam._, '</td>',
+												'<td>', entity.ProcName._, '</td>',
+												'<td>', entity.ProcSpeed._, '</td>',
+												'<td>', entity.HDM._, '</td>',
+												'<td>', entity.HDSN._, '</td>',
+												'<td>', entity.HDSize._, '</td>',
+												'<td>', entity.BattID._, '</td>',
+												'<td>', entity.BattName._, '</td>',
+												'<td>', entity.BattType._, '</td>',
+												'<td>', entity.BiosM._, '</td>',
+												'<td>', entity.BiosName._, '</td>',
+												'<td>', entity.RAMM._, '</td>',
+												'<td>', entity.RAMBank._, '</td>',
+												'<td>', entity.RAMCap._, '</td>',
+												'<td>', entity.RAMLoc._, '</td>',
+												'<td>', entity.RAMSN._, '</td>',
+												'<td>', entity.RAMSpeed._, '</td>',
+												'<td>', dateformat, '</td>',
 																
 																
 															'</tr>');
