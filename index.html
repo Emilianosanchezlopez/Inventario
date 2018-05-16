@@ -275,26 +275,12 @@ g += 'Dic'
 															'<th>Proyecto</th>',
 															'<th>Numero de serie</th>',
 															'<th>Nombre</th>',
-															'<th>Procesadores</th>',
-															'<th>ProcLogic</th>',
-															'<th>ProcFamily</th>',
-															'<th>Tipo de procesador</th>',
-															'<th>Velocidad de procesador</th>',
-															'<th>Disco duro</th>',
-															'<th>SerialNumber HD</th>',
-															'<th>Capacidad HD</th>',
-															'<th>ID Batería</th>',
-															'<th>Nombre Batería</th>',
-															'<th>Tipo Batería</th>',
-															'<th>BiosManufacturer</th>',
-															'<th>BiosName</th>',
-															'<th>RAMM</th>',
-															'<th>RAMBank</th>',
-															'<th>RAMCap</th>',
-															'<th>RAMLoc</th>',
-															'<th>RAMSN</th>',
-															'<th>RAMSpeed</th>',
+															'<th>Modelo</th>',
+															'<th>Fabricante</th>',
+															'<th>Latitud</th>',
+															'<th>Longitud</th>',
 															'<th>Fecha</th>',
+															
 															'</tr>','</thead>','<tbody>');
 											if (results.entries.length < 1) {
 												output.push('<tr><td>Empty results...</td></tr>');
@@ -308,8 +294,12 @@ g += 'Dic'
 												output.push('<tr>',
 												'<td>', entity.PartitionKey._, '</td>',
 												'<td>', entity.RowKey._, '</td>',
-											    	
-												'<td>', dateformat, '</td>',
+											    	'<td>', entity.Name._, '</td>',
+												'<td>', entity.Model._, '</td>',
+												'<td>', entity.Manufacturer._, '</td>',
+												'<td>', entity.Latitud._, '</td>',
+												'<td>', entity.Longitud._, '</td>',	    
+												'<td>', entity.Timestamp._, '</td>',
 																
 																
 															'</tr>');
